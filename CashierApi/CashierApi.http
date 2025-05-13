@@ -1,0 +1,6 @@
+@CashierApi_HostAddress = http://localhost:5211
+
+GET {{CashierApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

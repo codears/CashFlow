@@ -1,0 +1,70 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: cashier_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: cashier_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  postgres:
+    image: postgres:16
+    container_name: cashier_postgres
+    environment:
+      POSTGRES_DB: cashierDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - cashierdb_data:/var/lib/postgresql/data
+
+  cashreportapi:
+    build:
+      context: .
+      dockerfile: CashReportApi/Dockerfile
+    container_name: cash_report_api
+    depends_on:
+      - postgres
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "6000:8080"
+    restart: on-failure
+
+  cashierapi:
+    build:
+      context: .
+      dockerfile: CashierApi/Dockerfile
+    container_name: cashier_api
+    depends_on:
+      - postgres
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "7000:8080"
+    restart: on-failure
+
+  cashierworker:
+    build:
+      context: .
+      dockerfile: CashierWorker/Dockerfile
+    container_name: cashier_worker
+    depends_on:
+      - postgres
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    restart: on-failure
+
+volumes:
+  cashierdb_data:

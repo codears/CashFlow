@@ -1,0 +1,6 @@
+@CashReportApi_HostAddress = http://localhost:5286
+
+GET {{CashReportApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
