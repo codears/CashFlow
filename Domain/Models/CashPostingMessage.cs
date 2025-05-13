@@ -1,14 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CashierWorker.Models
+﻿namespace CashierWorker.Models
 {
     public class CashPostingMessage
     {
-        [Required]
-        public decimal Amount { get; set; }
-        [Required]
-        public string PostingType { get; set; }
-        [Required]
-        public DateTimeOffset CreatedAt { get; set; }
+        public required decimal Amount { get; set; }
+        public required string PostingType { get; set; }
+        public required DateTimeOffset CreatedAt { get; set; }
     }
 }

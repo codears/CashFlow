@@ -1,4 +1,6 @@
 using CashFlow.Domain.Settings;
+using CashFlow.Infra.Messaging;
+using CashFlow.Infra.Services;
 using CashierWorker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

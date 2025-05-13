@@ -3,7 +3,7 @@
     public record class Response
     {
         public static readonly Response Successful = new();
-        public Error Error { get; init; }
+        public Error? Error { get; init; }
         public static implicit operator Response(Error error)
         {
             return new Response() { Error = error };
